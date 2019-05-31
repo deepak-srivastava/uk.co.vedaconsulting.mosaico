@@ -272,6 +272,12 @@ class CRM_Mosaico_Utils {
     $config = self::getConfig();
     $methods = ['placeholder', 'resize', 'cover'];
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
+      // DS: clean any output buffers
+      $levels = ob_get_level();
+      for ($i=0; $i<$levels; $i++) {
+        ob_end_clean();
+      }
+
       $method = CRM_Utils_Array::value('method', $_GET, 'cover');
       if (!in_array($method, $methods)) {
         $method = 'cover'; // Old behavior. Seems silly. Being cautious.
